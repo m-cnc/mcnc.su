@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MCNC — CNC Manufacturing & Technology</title>
+
+    <meta name="description" content="MCNC — CNC Manufacturing & Technology. CNC оборудование, технологии и производственные решения.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0d1117;
+            color: #f0f2f5;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: min(1120px, 92%);
+            margin: 0 auto;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(13, 17, 23, 0.94);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #252b33;
+            z-index: 1000;
+        }
+
+        .nav {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #ffffff;
+        }
+
+        .logo span {
+            color: #7d8794;
+        }
+
+        nav a {
+            color: #aeb6c0;
+            text-decoration: none;
+            margin-left: 28px;
+            font-size: 14px;
+            transition: color .2s;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 76px;
+            background:
+                radial-gradient(circle at 80% 30%, #202833 0, transparent 35%),
+                radial-gradient(circle at 20% 80%, #18202a 0, transparent 30%),
+                #0d1117;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .eyebrow {
+            color: #8d99a8;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            font-size: clamp(52px, 9vw, 100px);
+            line-height: .95;
+            letter-spacing: -4px;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 span {
+            color: #8c98a6;
+        }
+
+        .subtitle {
+            font-size: clamp(20px, 3vw, 30px);
+            color: #d4d9df;
+            margin-bottom: 18px;
+        }
+
+        .description {
+            max-width: 650px;
+            color: #8993a0;
+            font-size: 17px;
+            margin-bottom: 38px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 25px;
+            border: 1px solid #56606c;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .button:hover {
+            background: #ffffff;
+            color: #0d1117;
+        }
+
+        .button.secondary {
+            color: #aeb6c0;
+            border-color: #303841;
+        }
+
+        section {
+            padding: 110px 0;
+            border-top: 1px solid #20262e;
+        }
+
+        .section-title {
+            font-size: 40px;
+            margin-bottom: 18px;
+        }
+
+        .section-text {
+            color: #8d97a4;
+            max-width: 720px;
+            margin-bottom: 45px;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            padding: 30px;
+            min-height: 220px;
+            border: 1px solid #282f38;
+            background: #11161d;
+        }
+
+        .card-number {
+            color: #66717e;
+            font-size: 13px;
+            margin-bottom: 45px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #8993a0;
+            font-size: 15px;
+        }
+
+        .contact {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            align-items: flex-start;
+        }
+
+        .contact-info {
+            max-width: 600px;
+        }
+
+        .contact-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ffffff;
+            font-size: 22px;
+            text-decoration: none;
+            border-bottom: 1px solid #59636f;
+            padding-bottom: 5px;
+        }
+
+        footer {
+            border-top: 1px solid #20262e;
+            padding: 30px 0;
+            color: #68727e;
+            font-size: 13px;
+        }
+
+        @media (max-width: 760px) {
+            nav {
+                display: none;
+            }
+
+            .hero {
+                min-height: 90vh;
+            }
+
+            .services {
+                grid-template-columns: 1fr;
+            }
+
+            .contact {
+                flex-direction: column;
+            }
+
+            h1 {
+                letter-spacing: -2px;
+            }
+
+            section {
+                padding: 80px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container nav">
+        <div class="logo">MCNC<span>.</span></div>
+
+        <nav>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+
+                <div class="eyebrow">
+                    CNC Manufacturing & Technology
+                </div>
+
+                <h1>
+                    MCNC<span>.</span>
+                </h1>
+
+                <div class="subtitle">
+                    CNC • Machinery • Manufacturing
+                </div>
+
+                <p class="description">
+                    CNC technology, machinery and manufacturing solutions.
+                    Professional approach to modern production and industrial technologies.
+                </p>
+
+                <div class="buttons">
+                    <a class="button" href="#contact">
+                        Contact
+                    </a>
+
+                    <a class="button secondary" href="#services">
+                        Our services
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section id="about">
+        <div class="container">
+
+            <h2 class="section-title">
+                About MCNC
+            </h2>
+
+            <p class="section-text">
+                MCNC focuses on CNC technologies, manufacturing equipment
+                and practical engineering solutions for modern production.
+            </p>
+
+        </div>
+    </section>
+
+
+    <section id="services">
+        <div class="container">
+
+            <h2 class="section-title">
+                Services
+            </h2>
+
+            <p class="section-text">
+                Technologies and expertise for CNC-based manufacturing.
+            </p>
+
+            <div class="services">
+
+                <div class="card">
+                    <div class="card-number">01</div>
+                    <h3>CNC Technology</h3>
+                    <p>
+                        CNC machining, programming and production technologies.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-number">02</div>
+                    <h3>Machinery</h3>
+                    <p>
+                        CNC equipment, machinery selection and production solutions.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-number">03</div>
+                    <h3>Manufacturing</h3>
+                    <p>
+                        Practical solutions for improving modern manufacturing processes.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="contact">
+        <div class="container">
+
+            <div class="contact">
+
+                <div class="contact-info">
+
+                    <h2 class="section-title">
+                        Contact
+                    </h2>
+
+                    <p class="section-text">
+                        For cooperation, CNC projects, equipment and
+                        manufacturing technologies, please contact us.
+                    </p>
+
+                    <a class="contact-link" href="mailto:info@mcnc.su">
+                        info@mcnc.su
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+
+<footer>
+    <div class="container">
+        © 2026 MCNC — CNC Manufacturing & Technology
+    </div>
+</footer>
+
+</body>
+</html>
