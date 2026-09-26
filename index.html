@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCNC — CNC Manufacturing & Technology</title>
+  <meta name="description" content="MCNC — CNC manufacturing, programming and technological support for modern furniture production.">
+  <meta name="theme-color" content="#07111f">
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <style>
+    :root{
+      --bg:#07111f;
+      --bg2:#0b1728;
+      --panel:#0e1c2f;
+      --panel2:#12243a;
+      --text:#f4f7fb;
+      --muted:#9eacbd;
+      --line:rgba(255,255,255,.09);
+      --orange:#f5823a;
+      --orange2:#ff9a5b;
+      --blue:#2f78d0;
+      --max:1180px;
+      --radius:22px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 85% 5%,rgba(47,120,208,.16),transparent 28%),
+        radial-gradient(circle at 10% 35%,rgba(245,130,58,.08),transparent 25%),
+        var(--bg);
+      line-height:1.6;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:min(calc(100% - 48px),var(--max));margin:auto}
+
+    header{
+      position:fixed;top:0;left:0;right:0;z-index:20;
+      backdrop-filter:blur(16px);
+      background:rgba(7,17,31,.78);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{
+      height:76px;display:flex;align-items:center;justify-content:space-between;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.08em}
+    .brand-mark{
+      width:38px;height:38px;border-radius:10px;
+      display:grid;place-items:center;
+      background:var(--orange);color:#07111f;font-weight:950;font-size:18px;
+      box-shadow:0 8px 28px rgba(245,130,58,.2);
+    }
+    .nav-links{display:flex;gap:30px;color:#c5cfdb;font-size:14px}
+    .nav-links a:hover{color:#fff}
+    .nav-cta{
+      padding:10px 17px;border:1px solid rgba(245,130,58,.55);
+      border-radius:999px;color:#fff;font-size:14px;
+      transition:.2s;
+    }
+    .nav-cta:hover{background:var(--orange);color:#07111f}
+
+    .hero{padding:170px 0 105px;min-height:760px;display:grid;align-items:center}
+    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:70px;align-items:center}
+    .eyebrow{
+      display:inline-flex;gap:10px;align-items:center;
+      color:var(--orange);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+      margin-bottom:22px;
+    }
+    .eyebrow:before{content:"";width:34px;height:1px;background:var(--orange)}
+    h1{
+      font-size:clamp(48px,7vw,86px);line-height:.98;letter-spacing:-.055em;
+      margin:0 0 28px;max-width:850px;
+    }
+    h1 span{color:var(--orange)}
+    .lead{font-size:20px;color:#b7c3d2;max-width:690px;margin:0 0 36px}
+    .actions{display:flex;gap:14px;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:9px;
+      min-height:50px;padding:0 21px;border-radius:12px;font-weight:750;font-size:14px;
+      transition:.2s;
+    }
+    .btn-primary{background:var(--orange);color:#07111f}
+    .btn-primary:hover{transform:translateY(-2px);background:var(--orange2)}
+    .btn-secondary{border:1px solid var(--line);background:rgba(255,255,255,.025);color:#e8edf3}
+    .btn-secondary:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+
+    .hero-card{
+      position:relative;padding:28px;border:1px solid var(--line);border-radius:28px;
+      background:linear-gradient(145deg,rgba(18,36,58,.9),rgba(9,20,34,.88));
+      box-shadow:0 30px 80px rgba(0,0,0,.3);
+      overflow:hidden;
+    }
+    .hero-card:before{
+      content:"";position:absolute;width:220px;height:220px;border-radius:50%;
+      background:rgba(245,130,58,.12);filter:blur(8px);right:-90px;top:-90px;
+    }
+    .technical{
+      font-family:"SFMono-Regular",Consolas,monospace;color:#8495aa;font-size:11px;letter-spacing:.12em;
+      text-transform:uppercase;margin-bottom:24px;
+    }
+    .machine-graphic{height:285px;border:1px solid var(--line);border-radius:18px;position:relative;overflow:hidden;background:#081422}
+    .machine-graphic:before{
+      content:"";position:absolute;inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+      background-size:28px 28px;
+    }
+    .machine-bed{position:absolute;left:11%;right:11%;bottom:16%;height:18%;border:1px solid #31506e;background:#10243a;transform:skewX(-15deg)}
+    .machine-gantry{position:absolute;left:21%;right:21%;top:22%;height:10%;background:#244766;border:1px solid #4a6d8d}
+    .machine-head{position:absolute;left:47%;top:27%;width:11%;height:38%;background:#17314d;border:1px solid #6c86a0}
+    .machine-head:after{content:"";position:absolute;left:43%;bottom:-35px;width:2px;height:38px;background:var(--orange)}
+    .machine-accent{position:absolute;left:13%;top:15%;width:6px;height:70%;background:var(--orange)}
+    .status{
+      display:flex;justify-content:space-between;align-items:center;margin-top:20px;
+      padding-top:20px;border-top:1px solid var(--line);
+    }
+    .status strong{font-size:14px}
+    .status small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+    .dot{width:9px;height:9px;border-radius:50%;background:var(--orange);box-shadow:0 0 18px rgba(245,130,58,.7)}
+
+    section{padding:105px 0;border-top:1px solid var(--line)}
+    .section-head{display:flex;justify-content:space-between;gap:40px;align-items:end;margin-bottom:48px}
+    .kicker{color:var(--orange);font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+    h2{font-size:clamp(34px,4vw,52px);letter-spacing:-.045em;line-height:1.05;margin:10px 0 0}
+    .section-intro{max-width:510px;color:var(--muted);margin:0}
+
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{
+      padding:30px;border:1px solid var(--line);border-radius:var(--radius);
+      background:rgba(255,255,255,.025);transition:.25s;
+    }
+    .card:hover{transform:translateY(-4px);border-color:rgba(245,130,58,.28);background:rgba(255,255,255,.04)}
+    .num{color:var(--orange);font-family:monospace;font-size:12px;margin-bottom:28px}
+    .card h3{font-size:21px;margin:0 0 10px}
+    .card p{color:var(--muted);font-size:15px;margin:0}
+
+    .split{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px;align-items:start}
+    .big-statement{font-size:clamp(30px,4vw,48px);line-height:1.08;letter-spacing:-.04em;margin:0}
+    .big-statement span{color:var(--orange)}
+    .specs{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+    .spec{padding:25px;background:var(--bg2)}
+    .spec label{display:block;color:#718198;text-transform:uppercase;letter-spacing:.1em;font-size:10px;font-weight:800;margin-bottom:7px}
+    .spec strong{font-size:17px}
+
+    .equipment{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .machine{
+      min-height:215px;padding:28px;border:1px solid var(--line);border-radius:20px;
+      background:linear-gradient(150deg,#102238,#0b1727);
+      display:flex;flex-direction:column;justify-content:space-between;
+    }
+    .machine-tag{font:11px monospace;color:var(--orange);letter-spacing:.1em}
+    .machine h3{font-size:25px;margin:0}
+    .machine p{color:var(--muted);font-size:13px;margin:0}
+
+    .process{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+    .step{padding:28px 24px 10px;border-right:1px solid var(--line)}
+    .step:last-child{border-right:0}
+    .step-number{font:12px monospace;color:var(--orange)}
+    .step h3{font-size:18px;margin:26px 0 8px}
+    .step p{color:var(--muted);font-size:14px;margin:0}
+
+    .contact{
+      padding:70px;border:1px solid var(--line);border-radius:30px;
+      background:linear-gradient(120deg,#102238,#0b1728);
+      display:flex;justify-content:space-between;align-items:center;gap:40px;
+    }
+    .contact h2{margin-top:8px}
+    .email{font-size:20px;font-weight:750}
+    .email:hover{color:var(--orange)}
+
+    footer{padding:35px 0;color:#68778b;font-size:12px}
+    .footer-row{display:flex;justify-content:space-between;gap:20px}
+
+    @media(max-width:900px){
+      .nav-links{display:none}
+      .hero-grid,.split{grid-template-columns:1fr}
+      .hero{padding-top:130px}
+      .hero-card{max-width:680px}
+      .cards,.equipment{grid-template-columns:1fr}
+      .process{grid-template-columns:1fr 1fr}
+      .step:nth-child(2){border-right:0}
+      .step:nth-child(3),.step:nth-child(4){border-top:1px solid var(--line)}
+      .contact{padding:40px;flex-direction:column;align-items:flex-start}
+    }
+    @media(max-width:560px){
+      .container{width:min(calc(100% - 30px),var(--max))}
+      .nav{height:68px}
+      .brand{font-size:14px}
+      .brand-mark{width:34px;height:34px}
+      .hero{padding-bottom:75px;min-height:auto}
+      section{padding:75px 0}
+      .section-head{display:block}
+      .section-intro{margin-top:20px}
+      .specs{grid-template-columns:1fr}
+      .process{grid-template-columns:1fr}
+      .step{border-right:0!important;border-top:1px solid var(--line)}
+      .step:first-child{border-top:0}
+      .contact{padding:30px 24px}
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#top" aria-label="MCNC">
+      <span class="brand-mark">M</span>
+      <span>MCNC</span>
+    </a>
+    <nav class="nav-links" aria-label="Основная навигация">
+      <a href="#services">Услуги</a>
+      <a href="#technology">Технологии</a>
+      <a href="#equipment">Оборудование</a>
+      <a href="#process">Подход</a>
+    </nav>
+    <a class="nav-cta" href="mailto:info@mcnc.su">Связаться</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">CNC Manufacturing & Technology</div>
+        <h1>Точная обработка.<br><span>Технологичный</span> результат.</h1>
+        <p class="lead">
+          MCNC — технологическая компетенция в CNC-производстве:
+          программирование, подготовка обработки и решение сложных производственных задач.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="mailto:info@mcnc.su">Обсудить задачу →</a>
+          <a class="btn btn-secondary" href="#services">Посмотреть компетенции</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="technical">MCNC / ENGINEERING SYSTEM</div>
+        <div class="machine-graphic" aria-hidden="true">
+          <div class="machine-accent"></div>
+          <div class="machine-gantry"></div>
+          <div class="machine-head"></div>
+          <div class="machine-bed"></div>
+        </div>
+        <div class="status">
+          <div>
+            <strong>CNC TECHNOLOGY</strong>
+            <small>Programming · Process · Production</small>
+          </div>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker">01 / Компетенции</div>
+          <h2>От задачи до<br>готовой обработки.</h2>
+        </div>
+        <p class="section-intro">
+          Фокус — не просто на создании управляющей программы, а на всей технологической цепочке,
+          где точность, повторяемость и производительность должны работать вместе.
+        </p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="num">01 — CNC PROGRAMMING</div>
+          <h3>Программирование ЧПУ</h3>
+          <p>Подготовка программ для сложных деталей и нестандартных производственных задач.</p>
+        </article>
+        <article class="card">
+          <div class="num">02 — TECHNOLOGY</div>
+          <h3>Технологическая подготовка</h3>
+          <p>Выбор стратегии обработки, инструмента, режимов и последовательности операций.</p>
+        </article>
+        <article class="card">
+          <div class="num">03 — ENGINEERING</div>
+          <h3>Инженерная поддержка</h3>
+          <p>Разбор сложных узлов, расчёты, подготовка технических решений и сопровождение производства.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="technology">
+    <div class="container split">
+      <div>
+        <div class="kicker">02 / Technology</div>
+        <p class="big-statement">
+          <span>Технология</span> должна быть частью результата, а не этапом между чертежом и станком.
+        </p>
+      </div>
+      <div class="specs">
+        <div class="spec">
+          <label>CAD / Engineering</label>
+          <strong>AutoCAD · Inventor</strong>
+        </div>
+        <div class="spec">
+          <label>CNC Software</label>
+          <strong>WoodWOP · bSolid</strong>
+        </div>
+        <div class="spec">
+          <label>Additional</label>
+          <strong>BiesseWorks</strong>
+        </div>
+        <div class="spec">
+          <label>Production Support</label>
+          <strong>Basis-раскрой</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="equipment">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker">03 / Equipment</div>
+          <h2>Работа с промышленным<br>CNC-оборудованием.</h2>
+        </div>
+        <p class="section-intro">
+          Практическая работа с различными платформами позволяет подбирать решение под конкретную технологию,
+          материал и производственную задачу.
+        </p>
+      </div>
+
+      <div class="equipment">
+        <article class="machine">
+          <div class="machine-tag">01 / ROVER</div>
+          <h3>Rover A3/30</h3>
+          <p>Фрезерная обработка и подготовка управляющих программ.</p>
+        </article>
+        <article class="machine">
+          <div class="machine-tag">02 / HOMAG</div>
+          <h3>ROVER KFT 2231</h3>
+          <p>Обработка деталей и технологическое сопровождение производства.</p>
+        </article>
+        <article class="machine">
+          <div class="machine-tag">03 / HOMAG</div>
+          <h3>CENTATEQ P-100</h3>
+          <p>Работа с современной CNC-платформой и сложными производственными задачами.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="kicker">04 / Approach</div>
+          <h2>Инженерный подход<br>к каждой задаче.</h2>
+        </div>
+        <p class="section-intro">
+          Система работы строится вокруг предсказуемого результата: понять задачу, проверить технологию,
+          подготовить обработку и довести её до производства.
+        </p>
+      </div>
+
+      <div class="process">
+        <div class="step">
+          <div class="step-number">STEP 01</div>
+          <h3>Анализ</h3>
+          <p>Материал, геометрия, требования к качеству и ограничения оборудования.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">STEP 02</div>
+          <h3>Технология</h3>
+          <p>Стратегия обработки, инструмент и режимы под конкретную задачу.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">STEP 03</div>
+          <h3>Программа</h3>
+          <p>Подготовка и проверка управляющей программы для станка.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">STEP 04</div>
+          <h3>Результат</h3>
+          <p>Передача решения в производство и техническое сопровождение.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="contact">
+        <div>
+          <div class="kicker">05 / Contact</div>
+          <h2>Есть сложная<br>задача?</h2>
+        </div>
+        <div>
+          <p style="color:var(--muted);max-width:390px;margin-top:0">
+            Опишите материал, деталь, оборудование и требуемый результат — обсудим технологию обработки.
+          </p>
+          <a class="email" href="mailto:info@mcnc.su">info@mcnc.su</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-row">
+    <div>© 2026 MCNC — CNC Manufacturing & Technology</div>
+    <div>mcnc.su</div>
+  </div>
+</footer>
+</body>
+</html>
