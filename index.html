@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MCNC — Производство и технологии CNC</title>
-  <meta name="description" content="MCNC — технологическая компетенция в мебельном производстве: программирование ЧПУ, технологическая подготовка и инженерная поддержка.">
+  <meta name="description" content="MCNC — технологическая компетенция в мебельном производстве: программирование ЧПУ, проектирование и поддержка.">
   <meta name="theme-color" content="#07111f">
   <link rel="canonical" href="https://mcnc.su/">
 
@@ -39,7 +39,7 @@
     "url": "https://mcnc.su/",
     "logo": "https://mcnc.su/images/icon-512.png",
     "image": "https://mcnc.su/images/og-cover.jpg",
-    "description": "Технологическая компетенция в мебельном производстве: программирование ЧПУ, технологическая подготовка и инженерная поддержка.",
+    "description": "Технологическая компетенция в мебельном производстве: программирование ЧПУ, проектирование и поддержка.",
     "sameAs": ["https://t.me/mecnc"]
   }
   </script>
@@ -437,7 +437,7 @@
         <h1>Точная обработка.<br><span>Технологичный</span> результат.</h1>
         <p class="lead">
           MCNC — технологическая компетенция в мебельном производстве:
-          программирование, подготовка обработки и решение сложных производственных задач.
+          подготовка проекта, программирование и решение сложных производственных задач.
         </p>
         <div class="actions">
           <a class="btn btn-primary" href="#contact-block" data-scroll-focus="contact-block">Обсудить задачу →</a>
@@ -548,7 +548,7 @@
         <article class="machine">
           <div class="machine-tag">02 / ROVER</div>
           <h3>ROVER KFT 2231</h3>
-          <p>Современное оборудование и современные технологии. Работают быстрее, служат дольше.</p>
+          <p>Современное оборудование и современные технологии. Оптимизация и скорость.</p>
         </article>
         <article class="machine">
           <div class="machine-tag">03 / HOMAG</div>
@@ -933,17 +933,26 @@
       function ring(z,r){ var o=[]; for(var i=0;i<20;i++){ var t=i/20*Math.PI*2; o.push([cur.x+r*Math.cos(t),cur.y+r*Math.sin(t),z]); } return o; }
       poly(ring(0,4.6),'rgba(0,0,0,.35)',null);
 
-      // translucent holder (schematic 3D cylinders)
-      var z0=cur.z, rings=[ring(z0,2.6),ring(z0+16,2.6),ring(z0+16,7.2),ring(z0+40,7.2)];
+      // translucent holder (schematic HSK63: stacked cylinders with sharp steps -- no cones,
+      // matches a real holder's blocky silhouette: mill -> collet body -> flange -> shank, each near-cylindrical)
+      var z0=cur.z, rA=2.6, rB=5.4, rC=8.4, rD=6.2, h1=z0+18, h2=h1+9, h3=h2+10, h4=h3+4, h5=h4+6.5;
+      var rings=[ring(z0,rA),ring(h1,rA), ring(h1,rB),ring(h2,rB), ring(h2,rC),ring(h3,rC), ring(h4,rD),ring(h5,rD)];
+      // 0-1 mill, 2-3 collet-body cylinder, 4-5 flange disc, 6-7 shank cylinder (near-constant radius, not tapered)
       ctx.lineWidth=1; ctx.strokeStyle='rgba(160,185,255,.5)';
       for(var i=0;i<20;i+=5){
-        [[0,1],[2,3]].forEach(function(pr2){
+        [[0,1],[2,3],[4,5],[6,7]].forEach(function(pr2){
           var p=pr(rings[pr2[0]][i][0],rings[pr2[0]][i][1],rings[pr2[0]][i][2]), q=pr(rings[pr2[1]][i][0],rings[pr2[1]][i][1],rings[pr2[1]][i][2]);
           ctx.beginPath(); ctx.moveTo(p[0],p[1]); ctx.lineTo(q[0],q[1]); ctx.stroke();
         });
       }
-      poly(rings[0],null,'rgba(160,185,255,.5)'); poly(rings[1],null,'rgba(160,185,255,.5)');
-      poly(rings[2],null,'rgba(160,185,255,.5)'); poly(rings[3],'rgba(120,150,255,.22)','rgba(160,185,255,.55)');
+      poly(rings[0],null,'rgba(160,185,255,.5)');
+      poly(rings[1],'rgba(120,150,255,.14)','rgba(160,185,255,.5)');
+      poly(rings[2],null,'rgba(160,185,255,.5)');
+      poly(rings[3],'rgba(120,150,255,.16)','rgba(160,185,255,.5)');
+      poly(rings[4],null,'rgba(160,185,255,.55)');
+      poly(rings[5],'rgba(120,150,255,.3)','rgba(160,185,255,.65)');
+      poly(rings[6],'rgba(120,150,255,.18)','rgba(160,185,255,.5)');
+      poly(rings[7],'rgba(120,150,255,.22)','rgba(160,185,255,.55)');
 
       // pulsing orange mill tip
       var p=Math.sin(now/220);
