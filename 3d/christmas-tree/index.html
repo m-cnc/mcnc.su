@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Christmas tree — 3D-модель — MCNC</title>
+  <meta name="description" content="Интерактивная 3D-модель Christmas tree (сборка). Вращайте и приближайте прямо в браузере.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#07111f">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Christmas tree — 3D-модель">
+  <meta property="og:description" content="Интерактивная 3D-модель: вращайте и приближайте прямо в браузере.">
+  <meta property="og:url" content="https://mcnc.su/3d/christmas-tree/">
+  <meta property="og:image" content="https://mcnc.su/3d/christmas-tree/poster.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <style>
+    :root{
+      --bg:#07111f; --bg2:#0e1c2f; --text:#f4f7fb; --muted:#9eacbd;
+      --line:rgba(255,255,255,.12); --orange:#f5823a; --orange2:#ff9a5b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      background:radial-gradient(120% 90% at 50% 38%,var(--bg2) 0%,var(--bg) 70%);
+      color:var(--text);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      overflow:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+    model-viewer{
+      position:fixed;inset:0;width:100%;height:100%;
+      background:transparent;
+      --poster-color:transparent;
+      --progress-bar-color:transparent;
+      --progress-mask:transparent;
+      outline:none;
+    }
+    .top{
+      position:fixed;left:0;right:0;top:0;z-index:5;
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+      padding:calc(14px + env(safe-area-inset-top)) calc(18px + env(safe-area-inset-right)) 14px calc(18px + env(safe-area-inset-left));
+      pointer-events:none;
+    }
+    .title{margin:0;font-size:18px;font-weight:750;letter-spacing:.2px;line-height:1.2}
+    .title small{display:block;margin-top:3px;font-size:12.5px;font-weight:500;color:var(--muted);letter-spacing:.3px}
+    .brand{
+      pointer-events:auto;color:var(--text);text-decoration:none;
+      font-size:14px;font-weight:750;letter-spacing:.3px;white-space:nowrap;opacity:.9;
+    }
+    .brand span{color:var(--orange)}
+    .brand:hover{opacity:1}
+    .bar{
+      position:fixed;left:50%;transform:translateX(-50%);z-index:5;
+      bottom:calc(22px + env(safe-area-inset-bottom));
+      display:flex;gap:10px;padding:8px;border:1px solid var(--line);border-radius:16px;
+      background:rgba(14,28,47,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    }
+    .bar button{
+      appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);
+      font:inherit;font-size:14px;font-weight:600;padding:10px 16px;border-radius:11px;cursor:pointer;
+      display:flex;align-items:center;gap:8px;min-height:42px;
+      transition:background .15s,border-color .15s,color .15s;
+    }
+    .bar button:hover{background:rgba(255,255,255,.09)}
+    .bar button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+    .bar button[aria-pressed="true"]{border-color:var(--orange);color:var(--orange2);background:rgba(245,130,58,.12)}
+    .bar svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .hint{
+      position:fixed;left:0;right:0;z-index:4;text-align:center;color:var(--muted);font-size:13px;
+      bottom:calc(86px + env(safe-area-inset-bottom));pointer-events:none;transition:opacity .6s;
+    }
+    .hint.off{opacity:0}
+    .loader{
+      position:fixed;inset:0;z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+      background:radial-gradient(120% 90% at 50% 38%,var(--bg2) 0%,var(--bg) 70%);
+      transition:opacity .5s,visibility .5s;
+    }
+    .loader.done{opacity:0;visibility:hidden}
+    .loader p{margin:0;color:var(--muted);font-size:14px}
+    .track{width:min(260px,68vw);height:4px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--orange2));border-radius:4px;transition:width .2s}
+    .error{
+      position:fixed;inset:0;z-index:9;display:none;align-items:center;justify-content:center;padding:24px;text-align:center;
+      background:var(--bg);color:var(--text);line-height:1.55;font-size:15px;
+    }
+    .error.show{display:flex}
+    .error div{max-width:440px}
+    .error b{display:block;margin-bottom:8px;font-size:18px}
+    .error a{color:var(--orange2)}
+    @media(max-width:560px){
+      .title{font-size:16px}
+      .bar{gap:6px;padding:6px;width:calc(100% - 24px);justify-content:center}
+      .bar button{flex:1;justify-content:center;padding:10px 8px;font-size:13px}
+      .bar button .lbl{display:none}
+      .hint{font-size:12.5px;padding:0 20px}
+    }
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+
+  <model-viewer id="mv"
+    src="christmas-tree.glb"
+    alt="Интерактивная 3D-модель Christmas tree (сборка)"
+    camera-controls
+    touch-action="none"
+    auto-rotate
+    auto-rotate-delay="1500"
+    rotation-per-second="14deg"
+    camera-orbit="38deg 72deg 126%"
+    max-camera-orbit="auto 100deg 230%"
+    min-camera-orbit="auto 15deg 30%"
+    field-of-view="30deg"
+    min-field-of-view="8deg"
+    max-field-of-view="45deg"
+    interpolation-decay="90"
+    environment-image="neutral"
+    shadow-intensity="1.2"
+    shadow-softness="1"
+    exposure="0.8"
+    interaction-prompt="none"
+    loading="eager"
+    reveal="auto">
+  </model-viewer>
+
+  <header class="top">
+    <h1 class="title">Christmas tree<small>3D-модель · сборка</small></h1>
+    <a class="brand" href="https://mcnc.su/" target="_blank" rel="noopener"><span>M</span>astering CNC</a>
+  </header>
+
+  <div class="hint" id="hint">Вращайте — мышью или пальцем · масштаб — колесо или щипок</div>
+
+  <div class="bar" role="toolbar" aria-label="Управление просмотром">
+    <button id="b-reset" type="button" title="Вернуть исходный ракурс">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      <span class="lbl">Сбросить</span>
+    </button>
+    <button id="b-rot" type="button" aria-pressed="true" title="Автовращение">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>
+      <span class="lbl">Вращение</span>
+    </button>
+    <button id="b-eng" type="button" aria-pressed="true" title="Окраска гравировки: включить / сбросить">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>
+      <span class="lbl">Гравировка</span>
+    </button>
+    <button id="b-deco" type="button" aria-pressed="true" title="Украшения: показать / скрыть">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="14" r="6"/><path d="M12 8V4M10 4h4"/></svg>
+      <span class="lbl">Украшения</span>
+    </button>
+    <button id="b-fs" type="button" title="Во весь экран">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      <span class="lbl">Во весь экран</span>
+    </button>
+  </div>
+
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <p id="loader-text">Загрузка модели…</p>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+
+  <div class="error" id="error" role="alert">
+    <div>
+      <b>Не удалось показать 3D-модель</b>
+      Проверьте интернет и обновите страницу. Если не помогает, откройте ссылку в актуальной версии Chrome, Safari, Edge или Firefox — для просмотра нужна поддержка WebGL.
+      <br><br><a href="https://mcnc.su/">mcnc.su</a>
+    </div>
+  </div>
+
+  <noscript><div class="error show"><div><b>Нужен JavaScript</b>Включите JavaScript, чтобы посмотреть 3D-модель.</div></div></noscript>
+
+  <script type="module">
+    const bDeco = document.getElementById('b-deco'); const deco = []; let decoOn = true;
+    import { ModelViewerElement } from '../lib/model-viewer.min.js';
+    ModelViewerElement.meshoptDecoderLocation = '../lib/meshopt_decoder.js';
+
+    const mv = document.getElementById('mv');
+    const loader = document.getElementById('loader');
+    const fill = document.getElementById('fill');
+    const loaderText = document.getElementById('loader-text');
+    const hint = document.getElementById('hint');
+    const err = document.getElementById('error');
+    const bRot = document.getElementById('b-rot');
+    const bFs = document.getElementById('b-fs');
+    let loaded = false;
+
+    function fail(){ if(loaded) return; loader.classList.add('done'); err.classList.add('show'); }
+
+    mv.addEventListener('progress', e => {
+      const p = Math.max(0, Math.min(1, e.detail.totalProgress || 0));
+      fill.style.width = (p * 100).toFixed(0) + '%';
+      if (p >= 1) loaderText.textContent = 'Подготовка…';
+    });
+    mv.addEventListener('load', () => { { const ms=(mv.model&&mv.model.materials)||[]; for(const m of ms){ if(/^deco_/.test(m.name)) deco.push({mat:m,col:m.pbrMetallicRoughness.baseColorFactor.slice(),mode:'OPAQUE'}); } if(!deco.length) bDeco.style.display='none'; }
+      loaded = true;
+      loader.classList.add('done');
+      document.documentElement.setAttribute('data-ready', '1');
+      setTimeout(() => hint.classList.add('off'), 7000);
+    });
+    mv.addEventListener('error', fail);
+    setTimeout(() => { if (!loaded && !mv.loaded) fail(); }, 45000);
+
+    // ракурс по умолчанию — запоминаем после загрузки
+    document.getElementById('b-reset').addEventListener('click', () => {
+      mv.cameraOrbit = '38deg 72deg 126%';
+      mv.fieldOfView = '30deg';
+      mv.cameraTarget = 'auto auto auto';
+      mv.jumpCameraToGoal && mv.jumpCameraToGoal();
+    });
+
+    bRot.addEventListener('click', () => {
+      const on = !mv.autoRotate;
+      mv.autoRotate = on;
+      bRot.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    // пользователь взял модель рукой — автовращение выключаем
+    mv.addEventListener('camera-change', e => {
+      if (e.detail && e.detail.source === 'user-interaction' && mv.autoRotate) {
+        mv.autoRotate = false;
+        bRot.setAttribute('aria-pressed', 'false');
+        hint.classList.add('off');
+      }
+    });
+
+
+    // окраска V-гравировки: красная / оранжевая, кнопка включает и сбрасывает на цвет дерева
+    
+    function setDeco(on){ decoOn = on; for (const d of deco){ d.mat.setAlphaMode(on ? d.mode : 'MASK'); d.mat.pbrMetallicRoughness.setBaseColorFactor(on ? d.col : [d.col[0], d.col[1], d.col[2], 0]); } bDeco.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+    bDeco.addEventListener('click', () => setDeco(!decoOn));
+    const bEng = document.getElementById('b-eng');
+    const engr = [];
+    let engOn = true;
+    function setEng(on){
+      engOn = on;
+      for (const g of engr) g.mat.pbrMetallicRoughness.setBaseColorFactor(on ? g.on : g.off);
+      bEng.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    bEng.addEventListener('click', () => setEng(!engOn));
+    mv.addEventListener('load', () => {
+      const mats = (mv.model && mv.model.materials) || [];
+      for (const m of mats) {
+        if (!/_groove_(red|orange)$/.test(m.name)) continue;
+        const wood = mats.find(w => w.name === m.name.replace(/_groove_.*$/, '_wood'));
+        if (!wood) continue;
+        engr.push({ mat: m,
+          on: m.pbrMetallicRoughness.baseColorFactor.slice(),
+          off: wood.pbrMetallicRoughness.baseColorFactor.slice() });
+      }
+      if (!engr.length) bEng.style.display = 'none';
+    });
+
+    if (!document.fullscreenEnabled && !document.webkitFullscreenEnabled) {
+      bFs.style.display = 'none';
+    } else {
+      bFs.addEventListener('click', () => {
+        const d = document, el = d.documentElement;
+        if (d.fullscreenElement || d.webkitFullscreenElement) {
+          (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+        } else {
+          (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
